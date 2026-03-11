@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truth Shield | Deepfake & AI Detection</title>
+    <meta name="description" content="Upload photos and videos to detect AI-generated content and deepfakes instantly.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <span class="logo-icon"></span>
+                <h1>Truth<span>Shield</span></h1>
+            </div>
+            <p class="subtitle">AI Forgery Detection Engine</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section id="upload-section" class="card">
+                <div class="upload-area" id="drop-zone">
+                    <input type="file" id="file-input" accept="image/*,video/*" hidden>
+                    <div class="upload-content">
+                        <div class="icon-container">
+                            <span class="upload-icon"></span>
+                        </div>
+                        <h2>Drop your media here</h2>
+                        <p>Upload a photo or video to verify its authenticity</p>
+                        <span class="file-types">Supports JPG, PNG, GIF, BMP, MP4, MOV, AVI, WEBM (Max 50MB)</span>
+                        <button class="btn-primary" id="browse-btn">Browse Files</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Scanning Section -->
+            <section id="scanning-section" class="card">
+                <div class="scanner-container">
+                    <div class="media-preview" id="preview-container">
+                        <!-- Image/Video injected by JS -->
+                        <div class="scanning-overlay">
+                            <div class="scan-line"></div>
+                            <div class="scan-grid"></div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-progress">
+                        <h3 id="scan-status-text">Initializing AI Core...</h3>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="scan-progress"></div>
+                        </div>
+                        <ul class="analysis-steps">
+                            <li class="step waiting" id="step-1">
+                                <span class="step-icon"></span>
+                                <span>Extracting metadata...</span>
+                            </li>
+                            <li class="step waiting" id="step-2">
+                                <span class="step-icon"></span>
+                                <span>Analyzing pixel variations...</span>
+                            </li>
+                            <li class="step waiting" id="step-3">
+                                <span class="step-icon"></span>
+                                <span>Checking for GAN artifacts...</span>
+                            </li>
+                            <li class="step waiting" id="step-4">
+                                <span class="step-icon"></span>
+                                <span>Computing probability score...</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results-section" class="card">
+                <div class="results-header">
+                    <h2>Analysis Complete</h2>
+                    <button class="btn-secondary btn-icon" id="reset-btn" title="Analyze another file">
+                        <span></span>
+                    </button>
+                </div>
+
+                <div class="results-layout">
+                    <!-- Media Result -->
+                    <div class="result-media-wrapper">
+                        <div id="result-media-container" class="media-container result-container">
+                            <!-- Injected media -->
+                        </div>
+                        <div class="authenticity-badge" id="auth-badge">
+                            <span class="badge-icon"></span>
+                            <span id="auth-text">Authentic</span>
+                        </div>
+                    </div>
+
+                    <!-- Metrics -->
+                    <div class="result-metrics">
+                        <div class="score-card" id="main-score-card">
+                            <div class="score-header">
+                                <h3>AI Probability Score</h3>
+                                <div class="tooltip">?
+                                    <span class="tooltiptext">0 = Real/Human-made &nbsp;|&nbsp; 10 = 100% AI Generated</span>
+                                </div>
+                            </div>
+                            <div class="score-display">
+                                <span class="score-number" id="final-score">0.0</span>
+                                <span class="score-denominator">/10</span>
+                            </div>
+                            <div class="score-scale">
+                                <div class="scale-bar">
+                                    <div class="scale-indicator" id="score-indicator"></div>
+                                </div>
+                                <div class="scale-labels">
+                                    <span>Real</span>
+                                    <span>Uncertain</span>
+                                    <span>AI</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detailed-metrics">
+                            <h4>Analysis Details</h4>
+                            <div class="metric-item">
+                                <span class="metric-name">Noise Pattern Consistency</span>
+                                <div class="metric-bar-bg"><div class="metric-bar" id="metric-noise"></div></div>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-name">Edge Artifacts</span>
+                                <div class="metric-bar-bg"><div class="metric-bar" id="metric-edges"></div></div>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-name">Frequency Domain</span>
+                                <div class="metric-bar-bg"><div class="metric-bar" id="metric-freq"></div></div>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-name">Facial / Anatomical Logic</span>
+                                <div class="metric-bar-bg"><div class="metric-bar" id="metric-logic"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="ts-toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
